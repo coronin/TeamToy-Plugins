@@ -1,14 +1,14 @@
 <?php
-/*** 
-TeamToy extenstion info block  
-##name 邮件队列 
+/***
+TeamToy extenstion info block
+##name 邮件队列
 ##folder_name mail_queue
 ##author Easy
 ##email Easychen@qq.com
 ##reversion 1
-##desp 通过ajax模拟邮件队列，解决群发邮件时php卡死的问题。支持smtp。 
-##update_url http://tt2net.sinaapp.com/?c=plugin&a=update_package&name=mail_queque 
-##reverison_url http://tt2net.sinaapp.com/?c=plugin&a=latest_reversion&name=mail_queque 
+##desp 通过ajax模拟邮件队列，解决群发邮件时php卡死的问题。支持smtp。
+##update_url http://tt2net.sinaapp.com/?c=plugin&a=update_package&name=mail_queque
+##reverison_url http://tt2net.sinaapp.com/?c=plugin&a=latest_reversion&name=mail_queque
 ***/
 
 // 检查并创建数据库
@@ -42,8 +42,8 @@ add_action( 'UI_USERMENU_ADMIN_LAST' , 'mail_queue_menu_list');
 function mail_queue_menu_list()
 {
 	?><li><a href="javascript:show_float_box( '邮件发送设置' , '?c=plugin&a=mail_queue' );void(0);">邮件发送设置</a></li>
-	<?php 	 	
-} 
+	<?php
+}
 
 add_action( 'PLUGIN_MAIL_QUEUE' , 'plugin_mail_queue');
 function  plugin_mail_queue()
@@ -54,7 +54,8 @@ function  plugin_mail_queue()
 	$data['mqueue_port'] = kget('mqueue_port');
 	$data['mqueue_username'] = kget('mqueue_username');
 	$data['mqueue_password'] = kget('mqueue_password');
-	return render( $data , 'ajax' , 'plugin' , 'mail_queue' ); 
+	$data['mqueue_from'] = kget('mqueue_from');
+	return render( $data , 'ajax' , 'plugin' , 'mail_queue' );
 }
 
 add_action( 'PLUGIN_MAIL_QUEUE_SAVE' , 'plugin_mail_queue_save');
@@ -65,19 +66,23 @@ function  plugin_mail_queue_save()
 	$mqueue_port = z(t(v('mqueue_port')));
 	$mqueue_username = z(t(v('mqueue_username')));
 	$mqueue_password = z(t(v('mqueue_password')));
+	$mqueue_from = z(t(v('mqueue_from')));
 
-	if( strlen( $mqueue_server ) < 1 
-		|| strlen( $mqueue_port ) < 1 
-		|| strlen( $mqueue_username ) < 1 
-		|| strlen( $mqueue_password ) < 1 
+	if( strlen( $mqueue_server ) < 1
+		|| strlen( $mqueue_port ) < 1
+		|| strlen( $mqueue_username ) < 1
+		|| strlen( $mqueue_password ) < 1
 
 	) return ajax_echo('设置内容不能为空');
 
-	kset('mqueue_on' , $mqueue_on);	
-	kset('mqueue_server' , $mqueue_server);	
-	kset('mqueue_port' , $mqueue_port);	
-	kset('mqueue_username' , $mqueue_username);	
-	kset('mqueue_password' , $mqueue_password);	
+	if( strlen( $mqueue_from ) < 1 ) $mqueue_from = $mqueue_username;
+
+	kset('mqueue_on' , $mqueue_on);
+	kset('mqueue_server' , $mqueue_server);
+	kset('mqueue_port' , $mqueue_port);
+	kset('mqueue_username' , $mqueue_username);
+	kset('mqueue_password' , $mqueue_password);
+	kset('mqueue_from' , $mqueue_from);
 
 	return ajax_echo('设置已保存<script>setTimeout( close_float_box, 500)</script>');
 
@@ -145,7 +150,7 @@ function check_mail_script()
 	function check_mail()
 	{
 		var url = '?c=plugin&a=check_mail' ;
-	
+
 		var params = {};
 		$.post( url , params , function( data )
 		{
@@ -177,7 +182,7 @@ function check_mail_script()
 					}
 				}
 			}
-		});	
+		});
 	}
 
 	setTimeout( check_mail , 9000 );
@@ -195,8 +200,8 @@ function plugin_check_mail()
 	{
 		session_write_close();
 		$info = unserialize( $line['data'] );
-		if(phpmailer_send_mail( $info['to'] , $info['subject'] , $info['body'] 
-			, kget('mqueue_username') , kget('mqueue_server') , kget('mqueue_port') 
+		if(phpmailer_send_mail( $info['to'] , $info['subject'] , $info['body']
+			, kget('mqueue_from') , kget('mqueue_server') , kget('mqueue_port')
 			, kget('mqueue_username') , kget('mqueue_password')  ))
 		{
 			$sql = "DELETE FROM `mail_queue` WHERE `id` = '" . intval( $line['id'] ) . "' LIMIT 1";
@@ -232,16 +237,16 @@ function send_notice_mail( $data )
 			$dd['to'] = $email = $user['email'];
 			$dd['subject'] = c('site_name').'邮件通知 - ' . mb_strimwidth( $data['content'] , 0 , 20 , '...' , 'UTF-8' );
 			$dd['body'] = $data['content'] . ' - <a href="' . c('site_url') . '/?c=inbox">点击这里查看详情</a>';
-			
+
 			$sql = "INSERT INTO `mail_queue` ( `email` , `data` , `timeline` ) VALUES ( '" . s( $email ) . "' , '" . s(serialize($dd)) . "' , '" . s(date("Y-m-d H:i:s")) . "' )";
 			run_sql( $sql );
 		}
 
-		
+
 
 	}
 
-	
+
 }
 
 add_action( 'PLUGIN_MSET' , 'plugin_mset' );
