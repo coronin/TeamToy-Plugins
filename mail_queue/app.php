@@ -233,19 +233,18 @@ function plugin_test_mail()
 {
 	include_once( AROOT .'model' . DS . 'api.function.php');
 	include_once( AROOT .'controller' . DS . 'api.class.php');
-	
+
+	$mqueue_from = z(t(v('mqueue_from')));
 	$mqueue_on = intval(t(v('mqueue_on')));
 	$mqueue_server = z(t(v('mqueue_server')));
 	$mqueue_port = z(t(v('mqueue_port')));
 	$mqueue_username = z(t(v('mqueue_username')));
 	$mqueue_password = z(t(v('mqueue_password')));
-	
 
 	if( strlen( $mqueue_server ) < 1 
 		|| strlen( $mqueue_port ) < 1 
 		|| strlen( $mqueue_username ) < 1 
 		|| strlen( $mqueue_password ) < 1 
-
 	)
 	return apiController::send_error( LR_API_ARGS_ERROR , 'SMTP ARGS ERROR ' );
 
@@ -255,7 +254,7 @@ function plugin_test_mail()
 		session_write_close();
 		
 		if(phpmailer_send_mail( $user['email'] , '来自TeamToy的测试邮件 '.date("Y-m-d H:i") , '如果您收到这封邮件说明您在SMTP中的邮件配置是正确的；如果您在垃圾邮箱找到这封邮件，请将发件人加入白名单。' 
-				, $mqueue_username , $mqueue_server , $mqueue_port 
+				, $mqueue_from , $mqueue_server , $mqueue_port 
 				, $mqueue_username , $mqueue_password  ))
 		{
 			return apiController::send_result( array( 'mail_sent' => $user['email'] ) );
