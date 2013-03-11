@@ -1,6 +1,13 @@
 <div class="row-fluid">	
 <form class="form-horizontal" action="?c=plugin&a=mail_queue_save" method="post" id="mqueue_form">
 	<div class="control-group">
+		<label class="control-label" for="mqueue_from">发信人</label>
+		<div class="controls">
+			<input type="text" class="input" id="mqueue_from" name="mqueue_from" value="<?=$mqueue_from?>">
+		</div>
+	</div>
+
+	<div class="control-group">
 		<label class="control-label" for="mqueue_server">SMTP服务器</label>
 		<div class="controls">
 			<input type="text" class="input" id="mqueue_server" name="mqueue_server" value="<?=$mqueue_server?>">
@@ -28,13 +35,14 @@
 		</div>
 	</div>
 
-	<div class="control-group">
-		<label class="control-label" for="mqueue_from">发信人</label>
-		<div class="controls">
-			<input type="text" class="input" id="mqueue_from" name="mqueue_from" value="<?=$mqueue_from?>">
-		</div>
-	</div>
-	<div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" name="mqueue_not_online" value="1" <?= intval($mqueue_not_online)==1 ? ' checked ':' '?>> 只给不在线的同学发邮件
+      </label>
+    </div>
+  </div>
+
+  <div class="control-group">
     <div class="controls">
       <label class="checkbox">
         <input type="checkbox" name="mqueue_on" value="1" <?=intval($mqueue_on)==1?' checked ':''?>> 启用
@@ -45,7 +53,8 @@
 	
 	
 	<div class="form-actions">
-            <a type="button" class="btn btn-primary" href="javascript:send_form_in('mqueue_form');">保存</a>
+            <a type="button" class="btn btn-primary" href="javascript:send_form_in('mqueue_form');">保存</a>&nbsp;
+            <a type="button" class="btn" href="javascript:mqueue_test();">发送测试邮件</a>
 
 </form>
 
