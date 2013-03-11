@@ -35,6 +35,8 @@
 		</div>
 	</div>
 
+
+  <div class="control-group">
     <div class="controls">
       <label class="checkbox">
         <input type="checkbox" name="mqueue_not_online" value="1" <?= intval($mqueue_not_online)==1 ? ' checked ':' '?>> 只给不在线的同学发邮件
@@ -49,9 +51,8 @@
       </label>
     </div>
   </div>
-	
-	
-	
+
+
 	<div class="form-actions">
             <a type="button" class="btn btn-primary" href="javascript:send_form_in('mqueue_form');">保存</a>&nbsp;
             <a type="button" class="btn" href="javascript:mqueue_test();">发送测试邮件</a>

@@ -50,8 +50,8 @@ function mail_queue_menu_list()
 add_action( 'PLUGIN_MAIL_QUEUE' , 'plugin_mail_queue');
 function  plugin_mail_queue()
 {
-	$data['mqueue_from'] = kget('mqueue_from');
 	$data['mqueue_on'] = kget('mqueue_on');
+	$data['mqueue_from'] = kget('mqueue_from');
 	$data['mqueue_server'] = kget('mqueue_server');
 	$data['mqueue_port'] = kget('mqueue_port');
 	$data['mqueue_username'] = kget('mqueue_username');
@@ -63,8 +63,8 @@ function  plugin_mail_queue()
 add_action( 'PLUGIN_MAIL_QUEUE_SAVE' , 'plugin_mail_queue_save');
 function  plugin_mail_queue_save()
 {
-	$mqueue_from = z(t(v('mqueue_from')));
 	$mqueue_on = intval(t(v('mqueue_on')));
+	$mqueue_from = z(t(v('mqueue_from')));
 	$mqueue_server = z(t(v('mqueue_server')));
 	$mqueue_port = z(t(v('mqueue_port')));
 	$mqueue_username = z(t(v('mqueue_username')));
@@ -80,8 +80,8 @@ function  plugin_mail_queue_save()
 
 	if( strlen( $mqueue_from ) < 1 ) $mqueue_from = $mqueue_username;
 
-	kset('mqueue_from' , $mqueue_from);
 	kset('mqueue_on' , $mqueue_on);
+	kset('mqueue_from' , $mqueue_from);
 	kset('mqueue_server' , $mqueue_server);
 	kset('mqueue_port' , $mqueue_port);
 	kset('mqueue_username' , $mqueue_username);
@@ -234,8 +234,8 @@ function plugin_test_mail()
 	include_once( AROOT .'model' . DS . 'api.function.php');
 	include_once( AROOT .'controller' . DS . 'api.class.php');
 
-	$mqueue_from = z(t(v('mqueue_from')));
 	$mqueue_on = intval(t(v('mqueue_on')));
+	$mqueue_from = z(t(v('mqueue_from')));
 	$mqueue_server = z(t(v('mqueue_server')));
 	$mqueue_port = z(t(v('mqueue_port')));
 	$mqueue_username = z(t(v('mqueue_username')));
