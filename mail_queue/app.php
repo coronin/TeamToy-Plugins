@@ -60,7 +60,7 @@ $plugin_lang['zh_cn'] = array
 	'PL_MAIL_QUEUE_TEST_MAIL_CONTENT' => '如果您收到这封邮件说明您在SMTP中的邮件配置是正确的；如果您在垃圾邮箱找到这封邮件，请将发件人加入白名单。',
 
 
-	'PL_MAIL_QUEUE_NOTICE_MAIL_TITLE' => '%s %s',
+	'PL_MAIL_QUEUE_NOTICE_MAIL_TITLE' => '%s',
 	'PL_MAIL_QUEUE_NOTICE_MAIL_CONTENT_POSTFIX' => '- <a href="%s">点击这里查看详情</a>',
 	'PL_MAIL_QUEUE_TITLE_SHORT' => '邮件通知',
 
@@ -93,7 +93,7 @@ $plugin_lang['zh_tw'] = array
 'PL_MAIL_QUEUE_TEST_MAIL_CONTENT' => '如果您收到這封郵件說明您在SMTP中的郵件配置是正確的；如果您在垃圾郵箱找到這封郵件，請將發件人加入白名單。 ',
 
 
-'PL_MAIL_QUEUE_NOTICE_MAIL_TITLE' => '%s %s',
+'PL_MAIL_QUEUE_NOTICE_MAIL_TITLE' => '%s',
 'PL_MAIL_QUEUE_NOTICE_MAIL_CONTENT_POSTFIX' => '- <a href="%s">點擊這裡查看詳​​情</a>',
 'PL_MAIL_QUEUE_TITLE_SHORT' => '郵件通知',
 
@@ -126,7 +126,7 @@ $plugin_lang['us_en'] = array
 'PL_MAIL_QUEUE_TEST_MAIL_CONTENT' => 'If you see this means your SMTP settings is right, If you find this in trashbox, add the sender to your whitelist',
 
 
-'PL_MAIL_QUEUE_NOTICE_MAIL_TITLE' => '%s %s',
+'PL_MAIL_QUEUE_NOTICE_MAIL_TITLE' => '%s',
 'PL_MAIL_QUEUE_NOTICE_MAIL_CONTENT_POSTFIX' => '- <a href="%s">Click for more</a>',
 'PL_MAIL_QUEUE_TITLE_SHORT' => 'Mail notification',
 
@@ -422,7 +422,7 @@ function send_notice_mail( $data )
 			$user = get_user_info_by_id( $data['uid'] );
 			$dd = array();
 			$dd['to'] = $email = $user['email'];
-			$dd['subject'] = __( 'PL_MAIL_QUEUE_NOTICE_MAIL_TITLE', array( '[todo]' , mb_strimwidth( $data['content'] , 0 , 24 , '...' , 'UTF-8' ) ) );
+			$dd['subject'] = __( 'PL_MAIL_QUEUE_NOTICE_MAIL_TITLE', array( mb_strimwidth( $data['content'] , 0 , 24 , '...' , 'UTF-8' ) ) );
 
 			$dd['body'] = $data['content'] .__('PL_MAIL_QUEUE_NOTICE_MAIL_CONTENT_POSTFIX',c('site_url') . '/?c=inbox');
 			
