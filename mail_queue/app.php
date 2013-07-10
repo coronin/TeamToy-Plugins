@@ -282,7 +282,7 @@ function check_mail_script()
 			}
 			else
 			{
-				return alert(__('JS_PL_MAIL_QUEUE_TEST_MAIL_ERROR'));
+				return alert(__('JS_PL_MAIL_QUEUE_TEST_MAIL_ERROR',data));
 			}
 		});	
 	}
