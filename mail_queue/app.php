@@ -53,7 +53,7 @@ $plugin_lang['zh_cn'] = array
 	'JS_PL_MAIL_QUEUE_NOTICE_OFF' => '你将不再收到邮件通知',
 	
 	'JS_PL_MAIL_QUEUE_TEST_MAIL_SENT' => '已经向%s发送了邮件，请登入邮箱检查。如果邮件在垃圾箱，请将发件人加入白名单。',
-	'JS_PL_MAIL_QUEUE_TEST_MAIL_ERROR' => '发送失败，请检查配置项是否填写完整，错误信息%s',
+	'JS_PL_MAIL_QUEUE_TEST_MAIL_ERROR' => '发送失败，请检查配置项是否填写完整',
 	'JS_PL_MAIL_QUEUE_SENDING_MAIL' => '正在发送队列中的邮件-剩余%s封',
 
 	'PL_MAIL_QUEUE_TEST_MAIL_TITLE' => '来自TeamToy的测试邮件%s',
@@ -86,7 +86,7 @@ $plugin_lang['zh_tw'] = array
 'JS_PL_MAIL_QUEUE_NOTICE_OFF' => '你將不再收到郵件通知',
 
 'JS_PL_MAIL_QUEUE_TEST_MAIL_SENT' => '已經向%s發送了郵件，請登入郵箱檢查。如果郵件在垃圾箱，請將發件人加入白名單。 ',
-'JS_PL_MAIL_QUEUE_TEST_MAIL_ERROR' => '發送失敗，請檢查配置項是否填寫完整，錯誤信息%s',
+'JS_PL_MAIL_QUEUE_TEST_MAIL_ERROR' => '發送失敗，請檢查配置項是否填寫完整',
 'JS_PL_MAIL_QUEUE_SENDING_MAIL' => '正在發送隊列中的郵件-剩餘%s封',
 
 'PL_MAIL_QUEUE_TEST_MAIL_TITLE' => '來自TeamToy的測試郵件%s',
@@ -119,7 +119,7 @@ $plugin_lang['us_en'] = array
 'JS_PL_MAIL_QUEUE_NOTICE_OFF' => 'You will not receive notification mail anymore',
 
 'JS_PL_MAIL_QUEUE_TEST_MAIL_SENT' => 'Sent mail to %s, check it now.If you find it in trashbox, add the sender to your whitelist',
-'JS_PL_MAIL_QUEUE_TEST_MAIL_ERROR' => 'Send mail error, check settings again , error message - %s',
+'JS_PL_MAIL_QUEUE_TEST_MAIL_ERROR' => 'Send mail error, check settings again',
 'JS_PL_MAIL_QUEUE_SENDING_MAIL' => 'Sending mail - %s left',
 
 'PL_MAIL_QUEUE_TEST_MAIL_TITLE' => 'Test mail form TeamToy[%s]',
@@ -276,13 +276,13 @@ function check_mail_script()
 			{
 				mail_noty = noty(
 				{
-						text:__('JS_PL_MAIL_QUEUE_TEST_MAIL_SENT',[data_obj.data.mail_sent]),
+						text:__('JS_PL_MAIL_QUEUE_TEST_MAIL_SENT', data_obj.data.mail_sent),
 						layout:'topRight',
 				});
 			}
 			else
 			{
-				return alert(__('JS_PL_MAIL_QUEUE_TEST_MAIL_ERROR',data));
+				return alert(__('JS_PL_MAIL_QUEUE_TEST_MAIL_ERROR'));
 			}
 		});	
 	}
@@ -302,12 +302,12 @@ function check_mail_script()
 				{
 					if( mail_noty != null )
 					{
-						mail_noty.setText( __('JS_PL_MAIL_QUEUE_SENDING_MAIL',parseInt( data_obj.data.to_send )));
+						mail_noty.setText( __('JS_PL_MAIL_QUEUE_SENDING_MAIL', parseInt( data_obj.data.to_send )));
 					}
 					else
 					mail_noty = noty(
 					{
-						text: __('JS_PL_MAIL_QUEUE_SENDING_MAIL',parseInt( data_obj.data.to_send )),
+						text: __('JS_PL_MAIL_QUEUE_SENDING_MAIL', parseInt( data_obj.data.to_send )),
 						layout:'topRight',
 					});
 
@@ -422,9 +422,9 @@ function send_notice_mail( $data )
 			$user = get_user_info_by_id( $data['uid'] );
 			$dd = array();
 			$dd['to'] = $email = $user['email'];
-			$dd['subject'] = __( 'PL_MAIL_QUEUE_NOTICE_MAIL_TITLE', array( mb_strimwidth( $data['content'] , 0 , 24 , '...' , 'UTF-8' ) ) );
+			$dd['subject'] = __( 'PL_MAIL_QUEUE_NOTICE_MAIL_TITLE', mb_strimwidth( $data['content'] , 0 , 24 , '...' , 'UTF-8' ) );
 
-			$dd['body'] = $data['content'] .__('PL_MAIL_QUEUE_NOTICE_MAIL_CONTENT_POSTFIX',c('site_url') . '/?c=inbox');
+			$dd['body'] = $data['content'] . __('PL_MAIL_QUEUE_NOTICE_MAIL_CONTENT_POSTFIX', c('site_url').'/?c=inbox');
 			
 			$sql = "INSERT INTO `mail_queue` ( `email` , `data` , `timeline` ) VALUES ( '" . s( $email ) . "' , '" . s(serialize($dd)) . "' , '" . s(date("Y-m-d H:i:s")) . "' )";
 			run_sql( $sql );
