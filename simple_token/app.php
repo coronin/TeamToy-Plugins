@@ -16,7 +16,7 @@ if( !defined('IN') ) die('bad request');
 // 创建方便外部引用的长期Token，可手工关闭和重置
 
 // 检查并创建数据库
-if( !mysql_query("SHOW COLUMNS FROM `stoken`",db()) )
+if( !my_sql("SHOW COLUMNS FROM `stoken`") )
 {
 	// table not exists
 	// create it

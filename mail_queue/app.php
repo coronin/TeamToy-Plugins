@@ -12,7 +12,7 @@ TeamToy extenstion info block
 ***/
 
 // 检查并创建数据库
-if( !mysql_query("SHOW COLUMNS FROM `mail_queue`",db()) )
+if( !my_sql("SHOW COLUMNS FROM `mail_queue`") )
 {
 	// table not exists
 	// create it

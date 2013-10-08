@@ -13,7 +13,7 @@ TeamToy extenstion info block
 
 if( !defined('IN') ) die('bad request');
 
-if( !mysql_query("SHOW COLUMNS FROM `checklist_tpl`",db()) )
+if( !my_sql("SHOW COLUMNS FROM `checklist_tpl`") )
 {
 
 	$sql = "CREATE TABLE IF NOT EXISTS `checklist` (
