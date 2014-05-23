@@ -1,21 +1,22 @@
-<h3><?=$user['name']?></h3>
+<!-- <?=$user['name']?> -->
 <?php if( $err_code == 0 && is_array($data) && count($data) > 0 ): ?>
-<ul class="ziwo">
-	<?php foreach( $data as $item ): ?>
-	<li  class=" <?php if( $item['is_star'] == 1 ){ echo 'star'; } ?>
-	             <?php if( $item['status'] == 3 ){ echo 'done'; } ?> "
-	     title="<?=__('PL_ZIWO_TODO_TIME',$item['last_action_at'])?>" >
-	  <input type="checkbox" <?php if( $item['status'] == 3 ){ echo 'checked'; } ?> />
-	  &nbsp;<a href="javascript:show_todo_detail_center(<?=$item['tid']?>);void(0);">
-	    <?php if( $item['is_star'] == 1 ){ echo '★ '; } ?>
-	    <?php if( $item['status'] == 3 ){ echo $item['timeline']; echo '~'; echo $item['last_action_at']; echo ' '; } ?>
-	    <?=$item['content']?>
-	  </a>
-	</li>
-	<?php endforeach; ?>
-</ul>
+<table class="ziwo">
+    <?php foreach( $data as $item ): ?>
+    <tr title="<?=__('PL_ZIWO_TODO_TIME',$item['last_action_at'])?>" >
+      <td class="dt<?php if( $item['status'] == 3 ){ echo ' done';}?>" >
+      <?php $dt1 = new DateTime( $item['last_action_at'] );
+            $dt2 = new DateTime( $item['timeline'] );
+            $interval = $dt2 -> diff( $dt1 );
+        if ($dt1 != $dt2) { echo $interval->format('花费%d天%h时%i分'); }
+        else { echo '布置于'.$dt2->format('Y/m/d'); } ?></td>
+      <td class=" <?php if( $item['is_star'] == 1 ){ echo 'star'; } ?>
+                  <?php if( $item['status'] == 3 ){ echo 'done'; } ?> " >
+      <a href="javascript:show_todo_detail_center(<?=$item['tid']?>);void(0);">
+        <?php if( $item['is_star'] == 1 ){ echo '★ '; } ?><?=$item['content']?>
+      </a></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
 <?php else: ?>
-<ul class="ziwo nodata">
-	<li><?=__('PL_ZIWO_NO_TODO_NOW')?></li>
-</ul>
+<p class="ziwo nodata"><?=__('PL_ZIWO_NO_TODO_NOW')?></p>
 <?php endif; ?>
