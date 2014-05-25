@@ -1,14 +1,17 @@
 <!-- <?=$user['name']?> -->
-<?php if( $err_code == 0 && is_array($data) && count($data) > 0 ): ?>
+<?php if( $err_code == 0 && is_array($data) && count($data) > 0 ): $cc = count($data); ?>
 <table class="ziwo">
     <?php foreach( $data as $item ): ?>
     <tr title="<?=__('PL_ZIWO_TODO_TIME',$item['last_action_at'])?>" >
+      <td class="cc">[<?=$cc ?>]</td>
       <td class="dt<?php if( $item['status'] == 3 ){ echo ' done';}?>" >
       <?php $dt1 = new DateTime( $item['last_action_at'] );
             $dt2 = new DateTime( $item['timeline'] );
             $interval = $dt2 -> diff( $dt1 );
-        if ($dt1 != $dt2) { echo $interval->format('花费%d天%h时%i分'); }
-        else { echo '布置于'.$dt2->format('Y/m/d'); } ?></td>
+        echo '布置于'.$dt2->format('Y/m/d');
+        $cc -= 1;
+        if ($dt1 != $dt2) { echo $interval->format('<br/>完成花费%d天%h时%i分'); }
+      ?></td>
       <td class=" <?php if( $item['is_star'] == 1 ){ echo 'star'; } ?>
                   <?php if( $item['status'] == 3 ){ echo 'done'; } ?> " >
       <a href="javascript:show_todo_detail_center(<?=$item['tid']?>);void(0);">
