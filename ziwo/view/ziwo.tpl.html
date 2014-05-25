@@ -36,7 +36,6 @@ table.ziwo td a
     color:#333;
 }
 
-
 table.ziwo td.star a
 {
     font-weight: bold;
@@ -59,37 +58,34 @@ table.ziwo td.done a
     float: left;
     min-height: 100px;
 }
-
-
-
 </style>
+
 <h2 class="main_board"><?=__('PL_ZIWO_TITLE')?></h2>
 <div class="line"></div>
+
 <?php
   if( isset($uid) ): ?>
     <div id="ziwo_list" uid="<?=$uid ?>" class="flow_block"></div>
-    </div>
     <script type="text/javascript">
-
-    var obj = $('#ziwo_list');
-    var uid = $(obj).attr('uid');
-    if( parseInt(uid) < 1 ) return false;
 
     function load_ziwo()
     {
-        var obj = $('td.tid').last();
-        var tid = $(obj).text();
-        if( !obj || parseInt(tid) < 1 ) {
-            tid = 0;
-        } else {
-            tid = parseInt(tid);
-        }
+        var tid = 0;
+        var obj = $('td.tid');
+        if( obj.length ) tid = parseInt( $(obj).last().text() );
 
-        var url = '?c=plugin&a=ziwo_item&uid='+uid+'&since_id='+tid;
+        var url = '?c=plugin&a=ziwo_item&since_id='+tid;
         $.post( url , {}  , function( data )
         {
-            $('#ziwo_'+uid).html(data);
-            $('#ziwo_'+uid).removeClass('toload');
+            $('#ziwo_list').append(data);
+            if( $('p.nodata').length === 0 ) {
+                $('td.just_added').removeClass('just_added');
+                load_ziwo();
+            } else {
+                $.each($('td.cc'), function (i, obj) {
+                    $(obj).html('['+(i+1)+']');
+                } );
+            }
         } );
     }
     load_ziwo();

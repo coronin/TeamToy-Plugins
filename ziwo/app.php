@@ -62,14 +62,11 @@ function ziwo_view()
 add_action( 'PLUGIN_ZIWO_ITEM' , 'ziwo_item' );
 function ziwo_item()
 {
-    $uid = intval( uid() );
-    if( $uid < 0 ) return ajax_echo('BAD UID');
-
     $params = array();
-    $params['uid'] = $uid;
+    $params['uid'] = intval( uid() );
     $params['ord'] = 'asc';
     $params['by'] = 'tid';
-    $params['count'] = 75;
+    $params['count'] = 100;
 
     if($content = send_request( 'todo_list' ,  $params , token()  ))
     {
