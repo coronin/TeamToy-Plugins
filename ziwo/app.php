@@ -67,9 +67,9 @@ function ziwo_item()
 
     $params = array();
     $params['uid'] = $uid;
-    $params['ord'] = 'desc';
-    $params['by'] = 'last_action_at';
-    $params['count'] = '9999';
+    $params['ord'] = 'asc';
+    $params['by'] = 'tid';
+    $params['count'] = 75;
 
     if($content = send_request( 'todo_list' ,  $params , token()  ))
     {

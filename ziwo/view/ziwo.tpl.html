@@ -26,6 +26,11 @@ td.dt
     margin: 0;
 }
 
+td.tid
+{
+    display: none;
+}
+
 table.ziwo td a
 {
     color:#333;
@@ -62,21 +67,25 @@ table.ziwo td.done a
 <div class="line"></div>
 <?php
   if( isset($uid) ): ?>
-    <div id="ziwo_list">
-    <div id="ziwo_<?=$uid ?>" uid="<?=$uid ?>" class="toload flow_block"></div>
+    <div id="ziwo_list" uid="<?=$uid ?>" class="flow_block"></div>
     </div>
     <script type="text/javascript">
 
+    var obj = $('#ziwo_list');
+    var uid = $(obj).attr('uid');
+    if( parseInt(uid) < 1 ) return false;
+
     function load_ziwo()
     {
-        var len = $('#ziwo_list div.toload').length;
-        if( len < 1 ) return false;
+        var obj = $('td.tid').last();
+        var tid = $(obj).text();
+        if( !obj || parseInt(tid) < 1 ) {
+            tid = 0;
+        } else {
+            tid = parseInt(tid);
+        }
 
-        var obj = $('#ziwo_list div.toload').first();
-        var uid = $(obj).attr('uid');
-        if( parseInt(uid) < 1 ) return false;
-
-        var url = '?c=plugin&a=ziwo_item&uid='+uid;
+        var url = '?c=plugin&a=ziwo_item&uid='+uid+'&since_id='+tid;
         $.post( url , {}  , function( data )
         {
             $('#ziwo_'+uid).html(data);
